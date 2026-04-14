@@ -8,11 +8,6 @@ Neutralino.init();
 
 // Global error tracking for production debugging
 window.onerror = (msg, url, line) => {
-  alert(`Debug Error: ${msg} \nAt: ${url}:${line}`);
-};
-
-// Global error tracking for production debugging
-window.onerror = (msg, url, line) => {
   console.error(`Error: ${msg} \nAt: ${url}:${line}`);
 };
 
@@ -37,20 +32,35 @@ const toast = document.getElementById('toast');
 const toastIcon = document.getElementById('toastIcon');
 const toastMessage = document.getElementById('toastMessage');
 
-// Modal Elements
-const exitModalOverlay = document.getElementById('exitModalOverlay');
-const btnExitCancel = document.getElementById('btnExitCancel');
-const btnExitConfirm = document.getElementById('btnExitConfirm');
+// ============================================================
+//  HELP / ABOUT WINDOW
+// ============================================================
 
-if (btnExitCancel) {
-  btnExitCancel.addEventListener('click', () => {
-    exitModalOverlay.style.display = 'none';
-  });
-}
+const btnHelp = document.getElementById('btnHelp');
 
-if (btnExitConfirm) {
-  btnExitConfirm.addEventListener('click', () => {
-    Neutralino.app.exit();
+if (btnHelp) {
+  btnHelp.addEventListener('click', async () => {
+    console.log('[Main] Help button clicked, opening About window...');
+    try {
+      await Neutralino.window.create('/about/', {
+        title:           'About PDF Password Remover',
+        width:           420,
+        height:          570,
+        minWidth:        400,
+        minHeight:       540,
+        center:          true,
+        resizable:       false,
+        alwaysOnTop:     true,
+        enableInspector: true,
+        borderless:      false,
+        maximize:        false,
+        hidden:          false,
+        exitProcessOnClose: false,
+      });
+      console.log('[Main] About window created successfully');
+    } catch (err) {
+      console.error('[Main] Cannot open About window:', err);
+    }
   });
 }
 
@@ -202,16 +212,19 @@ function renderFileList() {
 
     fileList.appendChild(item);
   });
-
-  fileList.querySelectorAll('.btn-remove-file').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      if (!isProcessing) {
-        removeFile(btn.getAttribute('data-id'));
-      }
-    });
-  });
 }
+
+// Event Delegation untuk tombol Remove File di dalam file list
+fileList.addEventListener('click', (e) => {
+  const btn = e.target.closest('.btn-remove-file');
+  if (btn && !isProcessing) {
+    e.preventDefault();
+    e.stopPropagation();
+    const id = btn.getAttribute('data-id');
+    console.log(`[Main] Removing file with ID: ${id}`);
+    removeFile(id);
+  }
+});
 
 function getStatusHtml(fileObj) {
   switch (fileObj.status) {
@@ -271,7 +284,7 @@ btnClearAll.addEventListener('click', () => {
 function updateUI() {
   const hasFiles = selectedFiles.length > 0;
 
-  fileListSection.style.display = hasFiles ? 'block' : 'none';
+  fileListSection.style.display = hasFiles ? 'flex' : 'none';
   fileCountBadge.textContent = selectedFiles.length;
 
   if (isProcessing) {
@@ -355,20 +368,23 @@ async function removePasswords() {
 
       const result = await Neutralino.os.execCommand(cmd);
 
-      if (result.exitCode === 0) {
+      // qpdf exit code 0: Success, 3: Warning (but successfully processed)
+      if (result.exitCode === 0 || result.exitCode === 3) {
         fileObj.status = 'success';
-        fileObj.message = '';
+        fileObj.message = result.exitCode === 3 ? 'Done (with warnings)' : '';
         successCount++;
       } else {
+        const rawError = result.stdErr || result.stdOut || 'Unknown error';
+        console.warn(`[qpdf error] ${fileObj.name}:\nExit Code: ${result.exitCode}\n${rawError}`);
         fileObj.status = 'error';
-        fileObj.message = parseQpdfError(result.stdErr || result.stdOut || '');
+        fileObj.message = parseQpdfError(rawError);
         errorCount++;
       }
     } catch (err) {
       fileObj.status = 'error';
       fileObj.message = 'Failed to execute process';
       errorCount++;
-      console.error('execCommand error:', err);
+      console.error('[qpdf execCommand error] Failed running binary:', err);
     }
 
     updateFileStatus(fileObj);
@@ -377,6 +393,7 @@ async function removePasswords() {
   // Selesai
   isProcessing = false;
   setButtonLoading(false);
+  renderFileList(); // Memperbarui UI list untuk melepaskan status 'disabled' pada tombol silang
   updateUI();
 
   // Tampilkan ringkasan

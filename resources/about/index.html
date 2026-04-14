@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About — PDF Password Remover</title>
+  <link rel="icon" href="/icons/appIcon.ico" type="image/x-icon">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg-primary: #0f1117;
+      --bg-secondary: #1a1d27;
+      --bg-card: #1e2130;
+      --accent: #6c63ff;
+      --accent-hover: #574fd6;
+      --accent-glow: rgba(108, 99, 255, 0.3);
+      --accent-light: rgba(108, 99, 255, 0.12);
+      --text-primary: #f0f0f5;
+      --text-secondary: #8b8fa8;
+      --text-muted: #5a5d73;
+      --border: rgba(255, 255, 255, 0.07);
+      --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      -webkit-user-select: none;
+      user-select: none;
+      /* Full page layout — tidak ada gutter/celah */
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    /* ── Top gradient hero section ───────────────────────── */
+    .hero {
+      flex-shrink: 0;
+      position: relative;
+      background: linear-gradient(160deg, #1a1d27 0%, #1e1b3a 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 40px 32px 36px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    /* Ambient glow */
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -60px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 280px;
+      height: 280px;
+      background: radial-gradient(circle, var(--accent-glow) 0%, transparent 65%);
+      pointer-events: none;
+    }
+
+
+
+    /* App icon */
+    .app-icon-wrapper {
+      position: relative;
+      z-index: 1;
+      width: 84px;
+      height: 84px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, var(--accent) 0%, #a855f7 100%);
+      box-shadow: 0 8px 32px var(--accent-glow);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 18px;
+      overflow: hidden;
+    }
+
+    .app-icon-wrapper::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.18) 0%, transparent 60%);
+    }
+
+    .app-icon-wrapper img {
+      width: 54px;
+      height: 54px;
+      object-fit: contain;
+      position: relative;
+      z-index: 1;
+    }
+
+    .app-icon-wrapper .icon-fallback {
+      display: none;
+      width: 42px;
+      height: 42px;
+      color: #fff;
+      position: relative;
+      z-index: 1;
+    }
+
+    .app-name {
+      position: relative;
+      z-index: 1;
+      font-size: 19px;
+      font-weight: 700;
+      color: var(--text-primary);
+      letter-spacing: -0.4px;
+      margin-bottom: 10px;
+    }
+
+    .app-description {
+      position: relative;
+      z-index: 1;
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.65;
+      max-width: 280px;
+      margin-bottom: 20px;
+    }
+
+    .version-badge {
+      position: relative;
+      z-index: 1;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 16px;
+      background: var(--accent-light);
+      border: 1px solid rgba(108, 99, 255, 0.25);
+      border-radius: 100px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--accent);
+    }
+
+    .version-badge svg {
+      width: 12px;
+      height: 12px;
+    }
+
+    /* ── Bottom action section ───────────────────────────── */
+    .actions {
+      flex: 1;
+      background: var(--bg-primary);
+      padding: 28px 28px 28px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+    }
+
+    .publisher {
+      font-size: 12px;
+      color: var(--text-muted);
+      letter-spacing: 0.3px;
+      text-align: center;
+    }
+
+    /* Contribute button */
+    .btn-contribute {
+      width: 100%;
+      padding: 15px 24px;
+      background: linear-gradient(135deg, var(--accent) 0%, #a855f7 100%);
+      color: #fff;
+      border: none;
+      border-radius: 14px;
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: var(--transition);
+      box-shadow: 0 4px 20px var(--accent-glow);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      position: relative;
+      overflow: hidden;
+      letter-spacing: 0.2px;
+    }
+
+    .btn-contribute::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(255, 255, 255, 0.12);
+      opacity: 0;
+      transition: var(--transition);
+    }
+
+    .btn-contribute:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 32px var(--accent-glow);
+    }
+
+    .btn-contribute:hover::before {
+      opacity: 1;
+    }
+
+    .btn-contribute:active {
+      transform: translateY(0);
+    }
+
+    .btn-contribute svg {
+      width: 17px;
+      height: 17px;
+      flex-shrink: 0;
+    }
+
+    /* Hint text */
+    .contribute-hint {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Hero Section -->
+  <div class="hero">
+    <!-- Icon -->
+    <div class="app-icon-wrapper">
+      <img src="/icons/appIcon.png" alt="PDF Password Remover"
+        onerror="this.style.display='none'; document.querySelector('.icon-fallback').style.display='block';">
+      <svg class="icon-fallback" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+        <polyline points="14 2 14 8 20 8" />
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+        <path d="M7 11V7a5 5 0 0 1 9.9-1" />
+      </svg>
+    </div>
+
+    <!-- App Info -->
+    <h1 class="app-name">PDF Password Remover</h1>
+    <p class="app-description">
+      A lightweight desktop app to remove passwords from encrypted PDF files.
+      Supports batch processing with a single password input — no internet required.
+    </p>
+
+    <!-- Version -->
+    <div class="version-badge">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="16 18 22 12 16 6" />
+        <polyline points="8 6 2 12 8 18" />
+      </svg>
+      Version 26.4.14
+    </div>
+  </div>
+
+  <!-- Action Section -->
+  <div class="actions">
+    <p class="publisher">Made with ❤️ by <strong>Awan Digitals</strong></p>
+
+    <button class="btn-contribute" id="btnContribute">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <path
+          d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+      </svg>
+      Contribute
+    </button>
+
+    <p class="contribute-hint">Support this project at contribute.awandigitals.com</p>
+  </div>
+
+  <!-- Neutralino.js -->
+  <script src="/js/neutralino.js"></script>
+  <script>
+    Neutralino.init();
+    console.log('[About] Neutralino initialized');
+
+    // Handle window close — agar child window bisa ditutup via tombol X
+    Neutralino.events.on('windowClose', async () => {
+      console.log('[About] windowClose event triggered');
+      try {
+        await Neutralino.app.exit();
+        console.log('[About] app.exit() called successfully');
+      } catch (err) {
+        console.error('[About] Failed to exit:', err);
+      }
+    });
+
+    document.getElementById('btnContribute').addEventListener('click', async () => {
+      console.log('[About] Contribute button clicked');
+      try {
+        await Neutralino.os.open('https://contribute.awandigitals.com');
+        console.log('[About] URL opened successfully');
+      } catch (err) {
+        console.error('[About] Failed to open URL:', err);
+      }
+    });
+  </script>
+</body>
+
+</html>
