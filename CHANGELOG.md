@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
-## [26.4.14] - 2026-04-14 — Initial Release
+## [26.4.17] - 2026-04-14 — Initial Release
 
 ### Added
 
@@ -45,7 +45,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
   - Desktop shortcut, Start Menu shortcut, optional Taskbar pin
   - Registers to Windows Registry: `HKLM\Software\AwanDigitals\PDFPasswordRemover`
   - Auto-terminates running process on uninstall
-  - Output: `PDF_Password_Remover_v26.4.14.exe`
+  - Output: `PDF_Password_Remover_v26.4.17.exe`
 - Cross-platform binaries: Windows x64, Linux x64/arm64/armhf, macOS x64/arm64/universal
 - Marketing landing page (`landing-pages/index.html`) — static English-language page with feature highlights and download CTA
 - `publish_itchio_guide.md` — guide for distributing the app on itch.io

@@ -1,5 +1,5 @@
 #define MyAppName      "PDF Password Remover"
-#define MyAppVersion   "26.4.14"
+#define MyAppVersion   "26.4.17"
 #define MyAppPublisher "Awan Digitals"
 #define MyAppExeName   "PDFPasswordRemover.exe"
 #define MyIconFile     "resources\icons\appIcon.ico"
@@ -66,4 +66,4 @@ Type: filesandordirs; Name: "{app}"
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
 
 [UninstallRun]
-Filename: "taskkill.exe"; Parameters: "/F /IM {#MyAppExeName}"; Flags: runhidden skipifdoesntexist
+Filename: "taskkill.exe"; Parameters: "/F /IM {#MyAppExeName}"; RunOnceId: "KillAppBeforeUninstall"; Flags: runhidden skipifdoesntexist
