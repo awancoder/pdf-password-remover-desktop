@@ -51,7 +51,7 @@ if (btnHelp) {
         center:          true,
         resizable:       false,
         alwaysOnTop:     true,
-        enableInspector: true,
+        enableInspector: false,
         borderless:      false,
         maximize:        false,
         hidden:          false,

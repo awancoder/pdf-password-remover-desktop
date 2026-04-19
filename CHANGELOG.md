@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [26.4.20] - 2026-04-20
+
+### Fixed
+- Fixed an issue where Developer Tools (Inspector) automatically opened when launching the About window.
+
+---
+
 ## [26.4.17] - 2026-04-14 — Initial Release
 
 ### Added

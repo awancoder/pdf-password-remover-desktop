@@ -117,7 +117,7 @@ We provide an Inno Setup script (`setup.iss`) to compile a professional Windows 
 2. Open `setup.iss`.
 3. Ensure the paths inside the `[Files]` section point correctly to your compiled files.
 4. Click `Compile`.
-5. The generated standalone installer (`PDF_Password_Remover_v26.4.17.exe`) will be output to the `Output/` folder.
+5. The generated standalone installer (`PDF_Password_Remover_v26.4.20.exe`) will be output to the `Output/` folder.
 
 > [!NOTE]
 > Windows 10/11 includes the WebView2 component natively, so end users will only need to run the `.exe`.

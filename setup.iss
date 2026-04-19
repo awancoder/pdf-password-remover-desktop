@@ -1,5 +1,5 @@
 #define MyAppName      "PDF Password Remover"
-#define MyAppVersion   "26.4.17"
+#define MyAppVersion   "26.4.20"
 #define MyAppPublisher "Awan Digitals"
 #define MyAppExeName   "PDFPasswordRemover.exe"
 #define MyIconFile     "resources\icons\appIcon.ico"
